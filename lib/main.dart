@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitsapp/habits/habit.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/homepage.dart';
 
@@ -10,14 +12,26 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HabitsApp',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple, brightness: Brightness.dark),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => MyAppState(),
+      child: MaterialApp(
+        title: 'HabitsApp',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple, brightness: Brightness.dark),
+          useMaterial3: true,
+        ),
+        home: const HomePage(title: 'Habits App'),
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
     );
+  }
+}
+
+class MyAppState extends ChangeNotifier {
+  var habits = <Habit> [];
+
+  void addTask(Habit h) {
+    habits.add(h);
+    notifyListeners();
   }
 }

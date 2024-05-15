@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:habitsapp/habits/habit.dart';
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({super.key});
+  final Habit habit;
+  const TaskCard({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(8.0),
           child: Placeholder(
             fallbackHeight: 100,
@@ -18,12 +18,12 @@ class TaskCard extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text("Tarefa"),
-                Text("NOME"),
+                Text(habit.name),
+                Text(habit.description),
               ],
             ),
           ),
