@@ -3,6 +3,7 @@ import 'package:habitsapp/main.dart';
 import 'package:habitsapp/models/form_new_task.dart';
 import 'package:habitsapp/models/taskcard.dart';
 import 'package:habitsapp/models/usercard.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,13 +44,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> openModal(BuildContext context) {
-    return showModalBottomSheet<void>(
+  Future openModal(BuildContext context) {
+    return showMaterialModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        )) ,
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          child: Center(
-            child: Column(
+        return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -59,9 +63,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
-            ),
-          ),
-        );
+            );
       },
     );
   }
