@@ -34,4 +34,9 @@ class MyAppState extends ChangeNotifier {
     habits.add(h);
     notifyListeners();
   }
+
+  void removeTask(Habit h) {
+    habits.remove(h);
+    notifyListeners();
+  }
 }

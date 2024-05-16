@@ -18,9 +18,7 @@ class _FormNewTaskState extends State<FormNewTask> {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FormBuilder(
+    return FormBuilder(
           key: _formKey,
           child: Column(
             children: [
@@ -32,9 +30,6 @@ class _FormNewTaskState extends State<FormNewTask> {
                     return 'Please enter some text';
                   }
                   return null;
-                },
-                onChanged: (val) {
-                  debugPrint(val);
                 },
               ),
               const SizedBox(height: 10),
@@ -48,22 +43,31 @@ class _FormNewTaskState extends State<FormNewTask> {
                   }
                   return null;
                 },
-                onChanged: (val) {
-                  debugPrint(val);
-                },
               ),
-              MaterialButton(
-                color: Theme.of(context).colorScheme.secondary,
-                onPressed: () {
-                  // Validate and save the form values
-                  _formKey.currentState?.saveAndValidate();
-                  var formData = _formKey.currentState?.value;
-                  appState.addTask(Habit(name: formData?["TaskName"], description: formData?["TaskDescription"]));
-                },
-                child: const Text('Login'),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      var isValid = _formKey.currentState?.saveAndValidate();
+                      var formData = _formKey.currentState?.value;
+                      if(isValid!) {
+                        appState.addTask(Habit(name: formData?["TaskName"], description: formData?["TaskDescription"]));
+                      }
+                    },
+                    child: const Text('Add Task'),
+                  ),
+                ],
               )
             ],
           ),
-        ));
+        );
   }
 }

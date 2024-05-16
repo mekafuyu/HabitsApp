@@ -20,18 +20,20 @@ class _HomePageState extends State<HomePage> {
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+        child: Center(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const UserCard(),
+            Expanded(
+              child: ListView(
                 children: [
-                  const UserCard(), 
-                  for (var habit in appState.habits)
-                    TaskCard(habit: habit)
-                   ]),
-          ),
+                  for (var habit in appState.habits) TaskCard(habit: habit)
+                ],
+              ),
+            )
+          ]),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -46,27 +48,27 @@ class _HomePageState extends State<HomePage> {
 
   Future openModal(BuildContext context) {
     return showMaterialModalBottomSheet(
+      // clipBehavior: ,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        )) ,
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      )),
       context: context,
       builder: (BuildContext context) {
-        return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const FormNewTask(),
-                ElevatedButton(
-                  child: const Text('Close BottomSheet'),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            );
+        return Padding(
+          padding: EdgeInsets.only(
+              top: 20,
+              right: 20,
+              left: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [FormNewTask()],
+          ),
+        );
       },
     );
   }
 }
-
-
