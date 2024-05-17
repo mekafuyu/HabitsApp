@@ -29,32 +29,39 @@ class TaskCard extends StatelessWidget {
               children: [
                 Flexible(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(habit.name),
-                      Text(habit.description),
+                      Text(habit.name, style: const TextStyle(fontFamily: "Righteous", fontSize: 24),),
+                      Text(habit.description, style: const TextStyle(fontFamily: "Righteous", fontSize: 18),),
                     ],
                   ),
                 ),
                 Column(
                   children: [
+                    // FIXME
+
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {},                      
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSurface,
-                          minimumSize: const Size(100, 40)),
-                      child: const Text("Done"),
+                        backgroundColor: Colors.green,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        minimumSize: const Size(5, 5),
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: const Icon(Icons.check),
                     ),
-                    const SizedBox(height: 35),
+                    const SizedBox(height: 5,),
                     ElevatedButton(
                       onPressed: () { appState.removeTask(habit); },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           foregroundColor:
                               Theme.of(context).colorScheme.onSurface,
-                          minimumSize: const Size(100, 40)),
-                      child: const Text("Lost"),
+                          minimumSize: const Size(5, 5),
+                          padding: EdgeInsets.zero
+                        ),
+                      child: const Icon(Icons.close),
                     ),
                   ],
                 ),
