@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/homepage.dart';
+import 'screens/home_page.dart';
 
 void main() {
   runApp(const MyApp());

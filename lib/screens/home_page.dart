@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
 import 'package:habitsapp/main.dart';
 import 'package:habitsapp/models/form_new_task.dart';
-import 'package:habitsapp/models/taskcard.dart';
-import 'package:habitsapp/models/usercard.dart';
+import 'package:habitsapp/models/task_card.dart';
+import 'package:habitsapp/models/user_card.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
