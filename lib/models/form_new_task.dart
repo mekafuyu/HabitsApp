@@ -29,6 +29,10 @@ class _FormNewTaskState extends State<FormNewTask> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
+                  if (value.length > 20) {
+                    return 'Task name too long';
+                  }
+
                   return null;
                 },
               ),

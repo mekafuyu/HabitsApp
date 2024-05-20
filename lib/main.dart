@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
+import 'package:habitsapp/screens/login_page.dart';
+import 'package:habitsapp/screens/register_page.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/home_page.dart';
@@ -18,10 +20,21 @@ class MyApp extends StatelessWidget {
         title: 'HabitsApp',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.deepPurple, brightness: Brightness.dark),
           useMaterial3: true,
         ),
-        home: const HomePage(title: 'Habits App'),
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => LoginPage(),
+          '/register': (context) => RegisterPage(),
+          '/home':(context) => HomePage(),
+          },
+        // home: const HomePage(title: 'Habits App'),
       ),
     );
   }
