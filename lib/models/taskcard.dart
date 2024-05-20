@@ -9,7 +9,7 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<HabitProvider>();
 
     return Card(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitsapp/habits/habit.dart';
 import 'package:habitsapp/main.dart';
 import 'package:habitsapp/models/form_new_task.dart';
 import 'package:habitsapp/models/taskcard.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<HabitProvider>();
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -26,6 +27,20 @@ class _HomePageState extends State<HomePage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const UserCard(),
+            FutureBuilder<Habit>(
+                future: appState.futureHabit,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    return TaskCard(habit: snapshot.data!);
+                  } else {
+                    return const Text('No habit data');
+                  }
+                },
+              ),
             Expanded(
               child: ListView(
                 children: [
@@ -40,7 +55,8 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
         onPressed: () {
-          openModal(context);
+          appState.fetchHabits();
+          //openModal(context);
         },
       ),
     );

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+      create: (context) => HabitProvider(),
       child: MaterialApp(
         title: 'HabitsApp',
         theme: ThemeData(
@@ -27,16 +27,29 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyAppState extends ChangeNotifier {
+class HabitProvider extends ChangeNotifier {
   var habits = <Habit> [];
+  late Future<Habit> futureHabit;
 
-  void addTask(Habit h) {
-    habits.add(h);
+  void addTask(Habit h)
+  {
+    
+  }
+
+  void removeTask(Habit h)
+  {
+
+  }
+
+  HabitProvider() {
+    fetchHabits();
+  }
+
+  void fetchHabits() {
+    futureHabit = fetchHabit();
     notifyListeners();
   }
 
-  void removeTask(Habit h) {
-    habits.remove(h);
-    notifyListeners();
-  }
+
+
 }
