@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitsapp/habits/habit.dart';
+import 'package:habitsapp/models/habit_provider.dart';
 import 'package:habitsapp/screens/login_page.dart';
 import 'package:habitsapp/screens/register_page.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +20,6 @@ class MyApp extends StatelessWidget {
         title: 'HabitsApp',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.deepPurple, brightness: Brightness.dark),
           useMaterial3: true,
         ),
@@ -40,29 +35,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HabitProvider extends ChangeNotifier {
-  var habits = <Habit> [];
-  late Future<Habit> futureHabit;
-
-  void addTask(Habit h)
-  {
-    
-  }
-
-  void removeTask(Habit h)
-  {
-
-  }
-
-  HabitProvider() {
-    fetchHabits();
-  }
-
-  void fetchHabits() {
-    futureHabit = fetchHabit();
-    notifyListeners();
-  }
-
-
-
-}

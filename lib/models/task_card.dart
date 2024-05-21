@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
-import 'package:habitsapp/main.dart';
+import 'package:habitsapp/models/habit_provider.dart';
 import 'package:provider/provider.dart';
 
 class TaskCard extends StatelessWidget {
@@ -31,7 +31,7 @@ class TaskCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(habit.name, style: const TextStyle(fontFamily: "Righteous", fontSize: 24),),
+                      Text(habit.title, style: const TextStyle(fontFamily: "Righteous", fontSize: 24),),
                       Text(habit.description, style: const TextStyle(fontFamily: "Righteous", fontSize: 18),),
                     ],
                   ),

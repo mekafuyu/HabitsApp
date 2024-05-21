@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:habitsapp/habits/habit.dart';
-import 'package:habitsapp/main.dart';
+import 'package:habitsapp/models/habit_provider.dart';
 import 'package:provider/provider.dart';
 
 class FormNewTask extends StatefulWidget {
@@ -48,6 +49,19 @@ class _FormNewTaskState extends State<FormNewTask> {
                   return null;
                 },
               ),
+              FormBuilderTextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                name: "TaskReward",
+                decoration:
+                    const InputDecoration(labelText: 'Task Reward:'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some value';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +77,17 @@ class _FormNewTaskState extends State<FormNewTask> {
                       var isValid = _formKey.currentState?.saveAndValidate();
                       var formData = _formKey.currentState?.value;
                       if(isValid!) {
-                        appState.addTask(Habit(name: formData?["TaskName"], description: formData?["TaskDescription"]));
+                        appState.
+                        addTask(Habit(
+                          title: formData?["TaskName"],
+                          description: formData?["TaskDescription"],
+                          reward: int.parse(formData?["TaskReward"])
+                        )).then((value) {
+                          debugPrint(value.toString());
+                          if(value) {
+                            Navigator.pop(context);
+                          }
+                        });
                       }
                     },
                     child: const Text('Add Task'),
