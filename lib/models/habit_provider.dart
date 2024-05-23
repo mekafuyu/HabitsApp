@@ -36,7 +36,7 @@ class HabitProvider extends ChangeNotifier {
     if (useLocally) {
       habits.add(h);
       notifyListeners();
-      saveTasksLocally(user?.nick);
+      saveTasksLocally(user!.nick);
       return true;
     }
 
@@ -63,7 +63,7 @@ class HabitProvider extends ChangeNotifier {
     if (useLocally) {
       habits.remove(h);
       notifyListeners();
-      saveTasksLocally(user?.nick);
+      saveTasksLocally(user!.nick);
       return;
     }
   }
@@ -75,15 +75,24 @@ class HabitProvider extends ChangeNotifier {
       h.description = description;
       h.reward = reward;
       notifyListeners();
-      saveTasksLocally(user?.nick);
+      saveTasksLocally(user!.nick);
       return true;
     }
 
     return updated;
   }
 
+  Future<void> completeTask(Habit h) async {
+    if (useLocally) {
+      removeTask(h);
+      user?.money += h.reward;
+      saveTasksLocally(user!.nick);
+      saveUserLocally(user!.nick);
+      notifyListeners();
+    }
+  }
 
-  Future<void> restoreLocalTasks(username) async {
+  Future<void> restoreLocalTasks(String username) async {
     final prefs = await SharedPreferences.getInstance();
     final jsonTasks = prefs.getString('tasks-$username');
     if (jsonTasks == null || jsonTasks == "") {
@@ -106,12 +115,12 @@ class HabitProvider extends ChangeNotifier {
     user = User.fromJson(jsonDecode(userjson));
   }
 
-  void saveTasksLocally(username) async {
+  void saveTasksLocally(String username) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("tasks-$username", jsonEncode(habits));
   }
 
-  void saveUserLocally(username) async {
+  void saveUserLocally(String username) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("user-$username", jsonEncode(user));
   }
