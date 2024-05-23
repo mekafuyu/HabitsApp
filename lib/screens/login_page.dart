@@ -62,31 +62,46 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             var isValid =
                                 _formKey.currentState?.saveAndValidate();
+
                             if (isValid!) {
-                              var res = http.post(
-                                Uri.parse(
-                                    'http://localhost:5140/registry/login'),
-                                headers: <String, String>{
-                                  'Content-Type':
-                                      'application/json; charset=UTF-8',
-                                },
-                                body: jsonEncode(_formKey.currentState?.value),
-                              );
-                              res.then((value) {
-                                debugPrint(value.statusCode.toString());
-                                if (value.statusCode == 200) {
-                                  var res = (jsonDecode(value.body)
-                                      as Map<String, dynamic>);
-                                  appState.setJwt(res["token"]);
-                                  appState.nick = "meka";
-                                  Navigator.pushNamed(
-                                      context, "/home")
-                                      .then((value) {
-                                        debugPrint(appState.getJwt());
-                                        appState.getTasks();
+                              var form = _formKey.currentState?.value;
+                              if (form?["Password"] == "1") {
+                                appState.useLocally = true;
+                                appState.restoreLocalUser(form?["Email"]).then((value) {
+                                  appState.restoreLocalTasks(form?["Email"]).then((value) {
+                                    Navigator.pushNamed(context, "/home");
+                                  });
+                                });
+                              } else {
+                                var res = http.post(
+                                  Uri.parse(
+                                      'http://localhost:5140/registry/login'),
+                                  headers: <String, String>{
+                                    'Content-Type':
+                                        'application/json; charset=UTF-8',
+                                  },
+                                  body: jsonEncode(form),
+                                );
+                                try {
+                                  res.then((value) {
+                                    debugPrint(value.statusCode.toString());
+                                    if (value.statusCode == 200) {
+                                      var res = (jsonDecode(value.body)
+                                          as Map<String, dynamic>);
+                                      appState.setJwt(res["token"]);
+                                      appState.nick = "meka";
+                                      debugPrint("jwt: ${res["token"]}");
+                                      Navigator.pushNamed(context, "/home")
+                                          .then((value) {
+                                        appState.fetchTasks();
                                       });
+                                    }
+                                  }).onError((e, t){
+                                  });
+                                } on Exception catch (e) {
+                                  debugPrint(e.toString());
                                 }
-                              });
+                              }
                             }
                           },
                           child: const Text("Login")),

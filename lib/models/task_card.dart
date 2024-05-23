@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
+import 'package:habitsapp/models/coin_viewer.dart';
 import 'package:habitsapp/models/habit_provider.dart';
 import 'package:provider/provider.dart';
 
 class TaskCard extends StatelessWidget {
   final Habit habit;
-  const TaskCard({super.key, required this.habit});
+  final Function openModal;
+  const TaskCard({super.key, required this.habit, required this.openModal});
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<HabitProvider>();
-
+    debugPrint(kMinInteractiveDimension.toString());
     return Card(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Padding(
@@ -31,37 +33,49 @@ class TaskCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(habit.title, style: const TextStyle(fontFamily: "Righteous", fontSize: 24),),
-                      Text(habit.description, style: const TextStyle(fontFamily: "Righteous", fontSize: 18),),
+                      Text(
+                        habit.title,
+                        style: const TextStyle(
+                            fontFamily: "Righteous", fontSize: 24),
+                      ),
+                      Text(
+                        habit.description,
+                        style: const TextStyle(
+                            fontFamily: "Righteous", fontSize: 18),
+                      ),
+                      Row(
+                        children: [
+                          CoinViewer(
+                              value: habit.reward ~/ 10000,
+                              color: Colors.amber),
+                          const SizedBox(width: 10),
+                          CoinViewer(
+                              value: habit.reward % 10000 ~/ 100,
+                              color: Colors.white70),
+                          const SizedBox(width: 10),
+                          CoinViewer(
+                              value: habit.reward % 100,
+                              color: Colors.deepOrange),
+                        ],
+                      )
                     ],
                   ),
                 ),
                 Column(
                   children: [
-                    // FIXME
-
-                    ElevatedButton(
-                      onPressed: () {},                      
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onSurface,
-                        minimumSize: const Size(5, 5),
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: const Icon(Icons.check),
+                    IconButton(
+                      onPressed: () {},
+                      style: IconButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.black87),
+                      icon: const Icon(Icons.check_rounded),
                     ),
-                    const SizedBox(height: 5,),
-                    ElevatedButton(
-                      onPressed: () { appState.removeTask(habit); },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSurface,
-                          minimumSize: const Size(5, 5),
-                          padding: EdgeInsets.zero
-                        ),
-                      child: const Icon(Icons.close),
+                    IconButton(
+                      onPressed: () => openModal(context, habit),
+                      style: IconButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                          foregroundColor: Colors.black87),
+                      icon: const Icon(Icons.settings_outlined),
                     ),
                   ],
                 ),

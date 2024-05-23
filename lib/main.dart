@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'HabitsApp',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple, brightness: Brightness.dark),
+              seedColor: Colors.blue.shade900, brightness: Brightness.dark),
           useMaterial3: true,
         ),
         initialRoute: '/login',

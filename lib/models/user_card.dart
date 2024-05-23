@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habitsapp/habits/user.dart';
+
+import 'coin_viewer.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({super.key});
+  final User? user;
+  const UserCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class UserCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const Text("Welcome Back,", style: TextStyle(fontFamily: "Righteous", fontSize: 18),),
-              const Text("Adventurer User", style: TextStyle(fontFamily: "Righteous", fontSize: 26),),
+              const Text("Welcome Back,", textAlign: TextAlign.center, style: TextStyle(fontFamily: "Righteous", fontSize: 18),),
+              Text("Adventurer ${user?.nick ?? "USER"}", textAlign: TextAlign.center, style: const TextStyle(fontFamily: "Righteous", fontSize: 26),),
               Row(
                 children: [
                   const Icon(
@@ -37,7 +41,7 @@ class UserCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.red,
                     backgroundColor: Colors.red.withOpacity(0.3),
-                    value: 0.5
+                    value: (user?.life ?? 1.0) / (user?.maxLife ?? 1.0)
                   ),)
                 ],
               ),
@@ -55,60 +59,18 @@ class UserCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.cyanAccent,
                     backgroundColor: Colors.cyanAccent.withOpacity(0.3),
-                    value: 0.5
+                    value: (user?.life ?? 100) / (100)
                   ),)
                 ],
               ),
               const SizedBox(height: 5,),
               Row(
                 children: [
-                  const Icon(
-                    CupertinoIcons.money_dollar_circle_fill,
-                    color: Colors.amber,
-                    size: 16,
-                  ),
-                  Expanded(
-                    child: Card(
-                      margin: const EdgeInsets.only(left: 10),
-                      color: Colors.amber.withOpacity(0.3),
-                      child: const Text(
-                        "1",
-                        style: TextStyle(fontFamily: "Righteous", fontSize: 12),
-                        textAlign: TextAlign.center,),
-                    ),
-                  ),
+                  CoinViewer(value: (user?.money ?? 10101) ~/ 10000, color: Colors.amber),
                   const SizedBox(width: 10),
-                  const Icon(
-                    CupertinoIcons.money_dollar_circle_fill,
-                    color: Colors.white70,
-                    size: 16,
-                  ),
-                  Expanded(
-                    child: Card(
-                      margin: const EdgeInsets.only(left: 10),
-                      color: Colors.white70.withOpacity(0.3),
-                      child: const Text(
-                        "1",
-                        style: TextStyle(fontFamily: "Righteous", fontSize: 12),
-                        textAlign: TextAlign.center,),
-                    ),
-                  ),
+                  CoinViewer(value: (user?.money ?? 10101) % 10000 ~/ 100, color: Colors.white70),
                   const SizedBox(width: 10),
-                  const Icon(
-                    CupertinoIcons.money_dollar_circle_fill,
-                    color: Colors.deepOrange,
-                    size: 16,
-                  ),
-                  Expanded(
-                    child: Card(
-                      margin: const EdgeInsets.only(left: 10),
-                      color: Colors.deepOrange.withOpacity(0.3),
-                      child: const Text(
-                        "1",
-                        style: TextStyle(fontFamily: "Righteous", fontSize: 12),
-                        textAlign: TextAlign.center,),
-                    ),
-                  ),
+                  CoinViewer(value: (user?.money ?? 10101) % 100, color: Colors.deepOrange),
                 ],
               )
             ],

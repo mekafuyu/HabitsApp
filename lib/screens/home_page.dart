@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
+import 'package:habitsapp/models/form_edit_task.dart';
 import 'package:habitsapp/models/form_new_task.dart';
 import 'package:habitsapp/models/habit_provider.dart';
 import 'package:habitsapp/models/task_card.dart';
@@ -25,29 +26,38 @@ class _HomePageState extends State<HomePage> {
         child: Center(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            const UserCard(),
-            FutureBuilder<List<Habit>>(
-                future: appState.futureHabits,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    return //TaskCard(habit: snapshot.data!);
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          for (var habit in snapshot.data!) TaskCard(habit: habit)
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const Text('No habit data');
-                  }
-                },
-              ),
-            
+            UserCard(user: appState.user),
+            appState.useLocally
+                ? Expanded(
+                    child: ListView(
+                      children: [
+                        for (var habit in appState.habits)
+                          TaskCard(habit: habit, openModal: openModal,)
+                      ],
+                    ),
+                  )
+                : FutureBuilder<List<Habit>>(
+                    future: appState.futureHabits,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        return //TaskCard(habit: snapshot.data!);
+                            Expanded(
+                          child: ListView(
+                            children: [
+                              for (var habit in snapshot.data!)
+                                TaskCard(habit: habit, openModal: openModal)
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const Text('No habit data');
+                      }
+                    },
+                  ),
           ]),
         ),
       ),
@@ -56,13 +66,13 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
         onPressed: () {
           // appState.fetchHabits();
-          openModal(context);
+          openModal(context, null);
         },
       ),
     );
   }
 
-  Future openModal(BuildContext context) {
+  Future openModal(BuildContext context, Habit? habit) {
     return showMaterialModalBottomSheet(
       // clipBehavior: ,
       shape: const RoundedRectangleBorder(
@@ -78,10 +88,10 @@ class _HomePageState extends State<HomePage> {
               right: 20,
               left: 20,
               bottom: MediaQuery.of(context).viewInsets.bottom + 20),
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            children: [FormNewTask()],
+            children: [habit == null ? const FormNewTask() : FormEditTask(habit: habit)],
           ),
         );
       },
