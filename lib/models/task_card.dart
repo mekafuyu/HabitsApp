@@ -34,16 +34,7 @@ class TaskCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        habit.title,
-                        style: const TextStyle(
-                            fontFamily: "Righteous", fontSize: 24),
-                      ),
-                      Text(
-                        habit.description,
-                        style: const TextStyle(
-                            fontFamily: "Righteous", fontSize: 18),
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           CoinViewer(
@@ -57,26 +48,43 @@ class TaskCard extends StatelessWidget {
                           CoinViewer(
                               value: habit.reward % 100,
                               color: Colors.deepOrange),
+                          const SizedBox(width: 10),
                         ],
-                      )
+                      ),
+                      Text(
+                        habit.title,
+                        style: const TextStyle(
+                            fontFamily: "Righteous", fontSize: 24),
+                      ),
+                      Text(
+                        habit.description,
+                        style: const TextStyle(
+                            fontFamily: "Righteous", fontSize: 18),
+                      ),
                     ],
                   ),
                 ),
                 Column(
                   children: [
-                    IconButton(
-                      onPressed: () => appState.completeTask(habit) ,
-                      style: IconButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.black87),
-                      icon: const Icon(Icons.check_rounded),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: IconButton(
+                        onPressed: () => appState.completeTask(habit),
+                        style: IconButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.black87),
+                        icon: const Icon(Icons.check_rounded),
+                      ),
                     ),
-                    IconButton(
-                      onPressed: () => openModal(context, habit),
-                      style: IconButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.black87),
-                      icon: const Icon(Icons.settings_outlined),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: IconButton(
+                        onPressed: () => openModal(context, habit),
+                        style: IconButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                            foregroundColor: Colors.black87),
+                        icon: const Icon(Icons.settings_outlined),
+                      ),
                     ),
                   ],
                 ),

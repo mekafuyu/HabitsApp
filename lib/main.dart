@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.blue.shade900, brightness: Brightness.dark),
           useMaterial3: true,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap
         ),
         initialRoute: '/login',
         routes: {

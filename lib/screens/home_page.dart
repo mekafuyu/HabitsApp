@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<HabitProvider>();
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(

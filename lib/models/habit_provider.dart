@@ -15,7 +15,7 @@ class HabitProvider extends ChangeNotifier {
   String? _jwt;
   String? nick;
 
-  void setJwt(String jwt) async {
+  Future<void> setJwt(String jwt) async {
     _jwt = jwt;
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('jwt', jwt);

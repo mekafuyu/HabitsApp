@@ -88,13 +88,12 @@ class _LoginPageState extends State<LoginPage> {
                                     if (value.statusCode == 200) {
                                       var res = (jsonDecode(value.body)
                                           as Map<String, dynamic>);
-                                      appState.setJwt(res["token"]);
-                                      appState.nick = "meka";
                                       debugPrint("jwt: ${res["token"]}");
-                                      Navigator.pushNamed(context, "/home")
-                                          .then((value) {
+                                      appState.nick = "meka";
+                                      appState.setJwt(res["token"]).then((value) {
                                         appState.fetchTasks();
                                       });
+                                      Navigator.pushNamed(context, "/home");
                                     }
                                   }).onError((e, t){
                                   });
