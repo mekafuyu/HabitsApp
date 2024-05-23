@@ -59,7 +59,7 @@ class UserCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.cyanAccent,
                     backgroundColor: Colors.cyanAccent.withOpacity(0.3),
-                    value: (user?.life ?? 100) / (100)
+                    value: 1
                   ),)
                 ],
               ),

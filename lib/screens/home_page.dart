@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
+import 'package:habitsapp/habits/user.dart';
 import 'package:habitsapp/models/form_edit_task.dart';
 import 'package:habitsapp/models/form_new_task.dart';
 import 'package:habitsapp/models/habit_provider.dart';
@@ -26,13 +27,28 @@ class _HomePageState extends State<HomePage> {
         child: Center(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            UserCard(user: appState.user),
+            appState.useLocally
+                ? UserCard(user: appState.user)
+                : FutureBuilder<User?>(
+                    future: appState.futureUser,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasData) {
+                        return UserCard(user: snapshot.data);
+                      } else {
+                        return Text('Error');
+                      }
+                    }),
             appState.useLocally
                 ? Expanded(
                     child: ListView(
                       children: [
                         for (var habit in appState.habits)
-                          TaskCard(habit: habit, openModal: openModal,)
+                          TaskCard(
+                            habit: habit,
+                            openModal: openModal,
+                          )
                       ],
                     ),
                   )
@@ -49,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                           child: ListView(
                             children: [
                               for (var habit in snapshot.data!)
-                                TaskCard(habit: habit, openModal: openModal)
+                                if (habit.enable)
+                                  TaskCard(habit: habit, openModal: openModal)
                             ],
                           ),
                         );
@@ -91,7 +108,9 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            children: [habit == null ? const FormNewTask() : FormEditTask(habit: habit)],
+            children: [
+              habit == null ? const FormNewTask() : FormEditTask(habit: habit)
+            ],
           ),
         );
       },

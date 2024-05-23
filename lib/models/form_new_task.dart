@@ -79,9 +79,11 @@ class _FormNewTaskState extends State<FormNewTask> {
                       if(isValid!) {
                         appState.
                         addTask(Habit(
+                          id: appState.habits.length,
                           title: formData?["TaskName"],
                           description: formData?["TaskDescription"],
-                          reward: int.parse(formData?["TaskReward"])
+                          reward: int.parse(formData?["TaskReward"],),
+                          enable: true
                         )).then((value) {
                           debugPrint(value.toString());
                           if(value) {
