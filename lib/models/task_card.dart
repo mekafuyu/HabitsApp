@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitsapp/habits/habit.dart';
 import 'package:habitsapp/models/coin_viewer.dart';
-import 'package:habitsapp/models/habit_provider.dart';
-import 'package:provider/provider.dart';
 
 class TaskCard extends StatelessWidget {
   final Habit habit;
@@ -11,7 +9,6 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<HabitProvider>();
     debugPrint(kMinInteractiveDimension.toString());
     return Card(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
