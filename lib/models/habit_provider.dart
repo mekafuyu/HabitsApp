@@ -72,7 +72,7 @@ class HabitProvider extends ChangeNotifier {
 
     var taskId = Uri.encodeComponent(h.id.toString());
     var jwtUri = Uri.encodeComponent(_jwt!);
-    var res = await http.put(
+    var res = await http.post(
       Uri.parse('http://localhost:5140/task/disable?id=$taskId&token=$jwtUri'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -80,6 +80,7 @@ class HabitProvider extends ChangeNotifier {
       body: jsonEncode({
       }),
     );
+    debugPrint(res.statusCode.toString());
     if (res.statusCode == 200) {
       removed = true;
       fetchTasks();
